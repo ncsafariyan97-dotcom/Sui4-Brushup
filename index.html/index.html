@@ -1,0 +1,81 @@
+<span class="star" onclick="rateStar('star3', 4)">⭐</span>
+                        <span class="star" onclick="rateStar('star3', 5)">⭐</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3>📝 Reflection:</h3>
+                <textarea rows="3" placeholder="What was most challenging today?"></textarea>
+                <textarea rows="3" placeholder="What will you practice next time?"></textarea>
+            </div>
+            
+            <div class="section" style="background: #fff5f5; border: 2px dashed #fc8181;">
+                <h3>🎙️ Homework: Record Yourself</h3>
+                <p>"What is the most creative ad you've seen? Describe it and explain why it was effective."</p>
+                <p style="margin-top: 10px; color: #718096;">Use PEEL + 2 idioms. 2-3 minutes.</p>
+                <p style="margin-top: 10px;">📱 Use your phone voice recorder!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startTimer(seconds, elementId) {
+            const display = document.getElementById(elementId);
+            display.classList.remove('hidden');
+            let remaining = seconds;
+            
+            const interval = setInterval(() => {
+                const mins = Math.floor(remaining / 60);
+                const secs = remaining % 60;
+                display.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (remaining <= 0) {
+                    clearInterval(interval);
+                    display.textContent = "Time's up! 🎉";
+                    alert("Time's up! Great practice!");
+                }
+                remaining--;
+            }, 1000);
+        }
+        
+        function rateStar(containerId, rating) {
+            const stars = document.getElementById(containerId).querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+        
+        function checkQuiz() {
+            const answers = { q1: 'b', q2: 'b', q3: 'b', q4: 'b' };
+            let score = 0;
+            let total = 4;
+            
+            for (let q in answers) {
+                const selected = document.querySelector('input[name="' + q + '"]:checked');
+                if (selected && selected.value === answers[q]) {
+                    score++;
+                }
+            }
+            
+            const resultDiv = document.getElementById('quizResult');
+            resultDiv.classList.remove('hidden');
+            
+            if (score === total) {
+                resultDiv.className = 'result-box result-good';
+                resultDiv.innerHTML = `<strong>🎉 Perfect! ${score}/${total} correct!</strong><br>You've mastered this topic!`;
+            } else if (score >= total/2) {
+                resultDiv.className = 'result-box result-ok';
+                resultDiv.innerHTML = `<strong>👍 Good job! ${score}/${total} correct.</strong><br>Review vocabulary and try again!`;
+            } else {
+                resultDiv.className = 'result-box result-bad';
+                resultDiv.innerHTML = `<strong>📚 Keep practicing! ${score}/${total} correct.</strong><br>Go back to vocabulary section!`;
+            }
+        }
+    </script>
+</body>
+</html>
